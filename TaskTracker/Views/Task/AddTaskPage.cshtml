@@ -1,0 +1,39 @@
+﻿@model TaskTracker.Models.Task
+
+<h2>Добавить задачу</h2>
+
+<form asp-action="AddTask" method="post">
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Tag" class="control-label"></label>
+        <input asp-for="Tag" class="form-control" />
+        <span asp-validation-for="Tag" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="GroupId" class="control-label"></label>
+        <input asp-for="GroupId" class="form-control" />
+        <span asp-validation-for="GroupId" class="text-danger"></span>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Добавить</button>
+</form>
+
+<a asp-action="TasksPage" method="get">К списку задач</a>
+
+<span>@ViewData["Status"]</span>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

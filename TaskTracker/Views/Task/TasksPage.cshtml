@@ -1,0 +1,356 @@
+﻿@* @model List<TaskTracker.Models.Task> *@
+@* *@
+@* <h2>Список задач</h2> <a asp-action="AddTaskPage" class="btn btn-primary">+</a> *@
+@* *@
+@* <div class="tasks-container"> *@
+@*     @foreach (var task in Model) *@
+@*     { *@
+@*         <div class="task-card"> *@
+@*             <div class="task-header"> *@
+@*                 <h4 class="task-title">@task.Title</h4> *@
+@*                 <span class="task-id">#@task.Id</span> *@
+@*             </div> *@
+@*             <div class="task-description"> *@
+@*                 @task.Description *@
+@*             </div> *@
+@*             <div class="task-details"> *@
+@*                 <div class="task-tag"> *@
+@*                     <strong>Теги:</strong> @task.Tag *@
+@*                 </div> *@
+@*                 <div class="task-group"> *@
+@*                     <strong>Группа:</strong> @task.GroupId *@
+@*                 </div> *@
+@*                 <div class="task-status"> *@
+@*                     <strong>Статус:</strong> @task.Status *@
+@*                 </div> *@
+@*             </div> *@
+@*             <div class="task-actions"> *@
+@*                 <form asp-action="RemoveTask" asp-route-taskId="@task.Id" method="post" style="display: inline;"> *@
+@*                     <button type="submit" class="btn btn-danger btn-sm">Удалить</button> *@
+@*                 </form> *@
+@*             </div> *@
+@*         </div> *@
+@*     } *@
+@* </div> *@
+@* *@
+@* <style> *@
+@*     .tasks-container { *@
+@*         display: grid; *@
+@*         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); *@
+@*         gap: 20px; *@
+@*         margin-top: 20px; *@
+@*     } *@
+@* *@
+@*     .task-card { *@
+@*         border: 1px solid #ddd; *@
+@*         border-radius: 8px; *@
+@*         padding: 16px; *@
+@*         background-color: #fff; *@
+@*         box-shadow: 0 2px 4px rgba(0,0,0,0.1); *@
+@*         transition: box-shadow 0.3s ease; *@
+@*     } *@
+@* *@
+@*     .task-card:hover { *@
+@*         box-shadow: 0 4px 8px rgba(0,0,0,0.15); *@
+@*     } *@
+@* *@
+@*     .task-header { *@
+@*         display: flex; *@
+@*         justify-content: space-between; *@
+@*         align-items: flex-start; *@
+@*         margin-bottom: 12px; *@
+@*         border-bottom: 1px solid #eee; *@
+@*         padding-bottom: 8px; *@
+@*     } *@
+@* *@
+@*     .task-title { *@
+@*         margin: 0; *@
+@*         color: #333; *@
+@*         font-size: 1.2em; *@
+@*         flex: 1; *@
+@*     } *@
+@* *@
+@*     .task-id { *@
+@*         color: #666; *@
+@*         font-size: 0.9em; *@
+@*         background: #f5f5f5; *@
+@*         padding: 2px 6px; *@
+@*         border-radius: 4px; *@
+@*     } *@
+@* *@
+@*     .task-description { *@
+@*         color: #555; *@
+@*         margin-bottom: 12px; *@
+@*         line-height: 1.4; *@
+@*     } *@
+@* *@
+@*     .task-details { *@
+@*         margin-bottom: 16px; *@
+@*     } *@
+@* *@
+@*     .task-tag, *@
+@*     .task-group, *@
+@*     .task-status { *@
+@*         margin-bottom: 6px; *@
+@*         font-size: 0.9em; *@
+@*     } *@
+@* *@
+@*     .task-actions { *@
+@*         text-align: right; *@
+@*     } *@
+@* *@
+@*     /* Адаптивность для мобильных устройств */ *@
+@*     @@media (max-width: 768px) { *@
+@*         .tasks-container { *@
+@*             grid-template-columns: 1fr; *@
+@*         } *@
+@*     } *@
+@* *@
+@*     /* Для очень больших экранов - максимум 4 карточки в ряд */ *@
+@*     @@media (min-width: 1400px) { *@
+@*         .tasks-container { *@
+@*             grid-template-columns: repeat(4, 1fr); *@
+@*         } *@
+@*     } *@
+@* </style> *@
+
+
+@model List<TaskTracker.Models.Task>
+
+<h2>Список задач</h2>
+
+<div class="page-container">
+    <!-- Основной контент с задачами -->
+    <div class="tasks-content">
+        <div class="tasks-container">
+            @foreach (var task in Model)
+            {
+                <div class="task-card">
+                    <div class="task-header">
+                        <h4 class="task-title">@task.Title</h4>
+                        
+                        @* <span class="task-id">#@task.Id</span> *@
+                    </div>
+                    <div class="task-description">
+                        @task.Description
+                    </div>
+                    <div class="task-details">
+                        <div class="task-tag">
+                            <strong>Теги:</strong> @task.Tag
+                        </div>
+                        <div class="task-group">
+                            <strong>Группа:</strong> @task.GroupId
+                        </div>
+                        <div class="task-status">
+                            <strong>Статус:</strong> @task.Status
+                        </div>
+                    </div>
+                    <div class="task-actions">
+                        <form asp-action="RemoveTask" asp-route-taskId="@task.Id" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Боковая панель для добавления задач -->
+    <div class="sidebar">
+        <div class="add-task-panel">
+            <h4>Добавить новую задачу</h4>
+            <form id="addTaskForm" asp-action="AddTask" method="post">
+                <div class="form-group">
+                    <label for="Title">Название:</label>
+                    <input type="text" id="Title" name="Title" class="form-control" required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="Description">Описание:</label>
+                    <textarea id="Description" name="Description" class="form-control" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="Tag">Теги:</label>
+                    <input type="text" id="Tag" name="Tag" class="form-control" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="GroupId">Группа:</label>
+                    <input type="text" id="GroupId" name="GroupId" class="form-control" />
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Добавить задачу</button>
+                <button type="button" id="clearForm" class="btn btn-secondary btn-block">Очистить форму</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-container {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 30px;
+        margin-top: 20px;
+    }
+
+    .tasks-content {
+        min-height: 400px;
+    }
+
+    .sidebar {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        height: fit-content;
+        position: sticky;
+        top: 20px;
+    }
+
+    .add-task-panel h4 {
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-weight: 500;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .btn-block {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .tasks-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .task-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .task-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .task-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px;
+    }
+
+    .task-title {
+        margin: 0;
+        color: #333;
+        font-size: 1.2em;
+        flex: 1;
+    }
+
+    .task-id {
+        color: #666;
+        font-size: 0.9em;
+        background: #f5f5f5;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+    .task-description {
+        color: #555;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+
+    .task-details {
+        margin-bottom: 16px;
+    }
+
+    .task-tag,
+    .task-group,
+    .task-status {
+        margin-bottom: 6px;
+        font-size: 0.9em;
+    }
+
+    .task-actions {
+        text-align: right;
+    }
+
+    /* Адаптивность для мобильных устройств */
+    @@media (max-width: 768px) {
+        .page-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .sidebar {
+            position: static;
+            order: -1;
+        }
+        
+        .tasks-container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Для очень больших экранов - максимум 4 карточки в ряд */
+    @@media (min-width: 1400px) {
+        .tasks-container {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Очистка формы при нажатии на кнопку "Очистить форму"
+            document.getElementById('clearForm').addEventListener('click', function() {
+                document.getElementById('addTaskForm').reset();
+            });
+
+            // Очистка формы после успешной отправки
+            document.getElementById('addTaskForm').addEventListener('submit', function() {
+                // Сохраняем ссылку на форму
+                var form = this;
+                
+                // Используем setTimeout чтобы очистка произошла после отправки формы
+                setTimeout(function() {
+                    form.reset();
+                }, 100);
+            });
+        });
+    </script>
+}

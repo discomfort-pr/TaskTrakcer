@@ -6,18 +6,18 @@ namespace TaskTracker.Repositories;
 
 public class UserRepository
 {
-    protected ApplicationDbContext Db;
+    private readonly ApplicationDbContext _db;
 
     public UserRepository(ApplicationDbContext db)
     {
-        Db = db;
+        _db = db;
     }
 
     public User AddUser(User user)
     {
         CheckUniqueEmail(user.Email);
-        var savedUser = Db.Users.Add(user).Entity;
-        Db.SaveChanges();
+        var savedUser = _db.Users.Add(user).Entity;
+        _db.SaveChanges();
         
         return savedUser;
     }
@@ -25,8 +25,8 @@ public class UserRepository
     public User UpdateUser(User user)
     {
         var updatedUser = GetUserById(user.Id);
-        Db.Entry(updatedUser).CurrentValues.SetValues(user);
-        Db.SaveChanges();
+        _db.Entry(updatedUser).CurrentValues.SetValues(user);
+        _db.SaveChanges();
         
         return updatedUser;
     }
@@ -34,26 +34,26 @@ public class UserRepository
     public User DeleteUser(int id)
     {
         var deletedUser = GetUserById(id);
-        Db.Users.Remove(deletedUser);
-        Db.SaveChanges();
+        _db.Users.Remove(deletedUser);
+        _db.SaveChanges();
         
         return deletedUser;
     }
 
     public List<User> GetAllUsers()
     {
-        return Db.Users.ToList();
+        return _db.Users.ToList();
     }
     
     public User GetUserById(int id)
     {
-        var user = Db.Users.Find(id);
+        var user = _db.Users.Find(id);
         return user ?? throw new NotFoundException($"User with id {id} not found");
     }
 
     public User GetUserByEmail(string email)
     {
-        var user = Db.Users.FirstOrDefault(u => u.Email == email);
+        var user = _db.Users.FirstOrDefault(u => u.Email == email);
         return user ?? throw new NotFoundException($"User with email {email} not found");
     }
 
@@ -68,5 +68,10 @@ public class UserRepository
             return;
         }
         throw new AlreadyExistsException($"User with email {email} already exists");
+    }
+
+    private void PrepareToUpdate(User updated, User userData)
+    {
+        
     }
 }

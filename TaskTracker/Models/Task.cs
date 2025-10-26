@@ -18,8 +18,8 @@ public class Task
     [MaxLength(50)]
     public string? Description { get; set; }
     
-    [ForeignKey("TaskStatus")]
-    public int StatusId { get; set; }
+    [DefaultValue("NEW")]
+    public string Status{ get; set; }
     
     [MaxLength(50)]
     public string? Tag { get; set; }
@@ -27,7 +27,8 @@ public class Task
     [ForeignKey("User")]
     public int UserId { get; set; }
     
+    public int? GroupId { get; set; }
+    
     // навигационные свойства
     public virtual User User { get; set; }
-    public virtual TaskStatus TaskStatus { get; set; }
 }

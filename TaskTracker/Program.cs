@@ -11,6 +11,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
+
+builder.Services.AddScoped<TaskRepository>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession(options =>
@@ -27,75 +29,27 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     dbContext.Database.EnsureDeleted();
     dbContext.Database.EnsureCreated();
+    
+    
+    // var userRepository = scope.ServiceProvider.GetRequiredService<UserRepository>();
+    // userRepository.AddUser(new User
+    // {
+    //     Id = 1,
+    //     Name = "John Doe",
+    //     Email = "m.akk.@ya.ru",
+    //     Password = "12345"
+    // });
+    // userRepository.UpdateUser(new User
+    // {
+    //     Id = 1,
+    //     Password = "zhuzha"
+    // });
+    // Console.WriteLine(userRepository.GetUserById(1));
 }
 
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
 app.MapControllers();
-
-// using (var scope = app.Services.CreateScope())
-// {
-//     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-//     
-//     try
-//     {
-//         var created = db.Database.EnsureCreated();
-//         
-//         if (created)
-//         {
-//             Console.WriteLine("База данных создана");
-//             
-//             // Добавляем тестовые данные только если база была создана
-//             if (!db.Users.Any())
-//             {
-//                 UserRepository userRepository = new UserRepository(db);
-//                 
-//                 User tom = new User 
-//                 { 
-//                     Name = "Tom", 
-//                     Email = "m.akkizov@yandex.ru",  
-//                     Password = "123456" 
-//                 };
-//                 
-//                 User tom2 = new User 
-//                 { 
-//                     Name = "Tom2", 
-//                     Email = "m.azov@yandex.ru",  
-//                     Password = "123456" 
-//                 };
-//
-//                 User tom3 = new User
-//                 {
-//                     Id = 2,
-//                     Name = "Tom3",
-//                     Email = "m.akk@yandex.ru",
-//                     Password = "123433"
-//                 };
-//
-//
-//                 userRepository.AddUser(tom);
-//                 Console.WriteLine(string.Join(", ", userRepository.GetAllUsers().Select(u => u.ToString())));
-//                 
-//                 userRepository.AddUser(tom2);
-//                 Console.WriteLine(string.Join(", ", userRepository.GetAllUsers().Select(u => u.ToString())));
-//                 
-//                 userRepository.DeleteUser(tom.Id);
-//                 Console.WriteLine(string.Join(", ", userRepository.GetAllUsers().Select(u => u.ToString())));
-//
-//                 userRepository.UpdateUser(tom3);
-//                 Console.WriteLine(string.Join(", ", userRepository.GetAllUsers().Select(u => u.ToString())));
-//                 
-//                 // Console.WriteLine("Тестовые данные добавлены");
-//             }
-//         }
-//     }
-//     catch (Exception ex)
-//     {
-//         Console.WriteLine($"Ошибка: {ex.Message}");
-//         // Проверьте подключение к PostgreSQL
-//         Console.WriteLine("Убедитесь, что PostgreSQL запущен и доступен");
-//     }
-// }
 
 app.Run();
